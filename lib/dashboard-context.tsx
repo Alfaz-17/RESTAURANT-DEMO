@@ -211,6 +211,50 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     loadOrders()
   }, [])
 
+  // Sync orders across tabs using storage events and periodic polling
+  useEffect(() => {
+    const syncOrders = async () => {
+      try {
+        const ordersRes = await serverGetTodayOrders()
+        if (ordersRes.success && ordersRes.data) {
+          const mappedOrders = ordersRes.data.map((order: any) => ({
+            id: order.id,
+            items: order.items || [],
+            status: order.status,
+            type: order.type,
+            total: order.total,
+            timestamp: new Date(order.created_at),
+            preparationTime: order.preparation_time,
+            estimatedReadyTime: order.estimated_ready_time ? new Date(order.estimated_ready_time) : undefined,
+          }))
+          
+          // Only update if something actually changed to avoid unnecessary re-renders
+          setOrders(prev => {
+            const hasChanged = JSON.stringify(prev) !== JSON.stringify(mappedOrders)
+            return hasChanged ? mappedOrders : prev
+          })
+        }
+      } catch (error) {
+        console.error("[v0] Sync orders failed:", error)
+      }
+    }
+
+    // Listen for storage changes from other tabs
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'v0_orders') {
+        syncOrders()
+      }
+    })
+
+    // Periodic polling (every 3 seconds) for live updates
+    const pollInterval = setInterval(syncOrders, 3000)
+
+    return () => {
+      window.removeEventListener('storage', syncOrders)
+      clearInterval(pollInterval)
+    }
+  }, [])
+
   const getTodayOrders = () => {
     const today = new Date()
     today.setHours(0, 0, 0, 0)

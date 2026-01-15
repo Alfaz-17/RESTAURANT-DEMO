@@ -45,7 +45,7 @@ export function OrderTrackingTimeline({ status }: OrderTrackingTimelineProps) {
   const currentIndex = getCurrentStepIndex()
 
   return (
-    <div className="space-y-8 py-4">
+    <div className="space-y-10 py-6">
       {steps.map((step, index) => {
         const isCompleted = index < currentIndex
         const isCurrent = index === currentIndex
@@ -53,39 +53,41 @@ export function OrderTrackingTimeline({ status }: OrderTrackingTimelineProps) {
         const Icon = step.icon
 
         return (
-          <div key={step.id} className="relative flex gap-6">
+          <div key={step.id} className="relative flex items-start gap-4 sm:gap-6">
             {/* Connector Line */}
             {!isLast && (
               <div
-                className={`absolute left-[19px] top-10 w-0.5 h-12 transition-colors duration-1000 ${
-                  isCompleted ? "bg-accent" : "bg-border"
+                className={`absolute left-[17px] sm:left-[19px] top-10 w-px h-14 transition-colors duration-1000 ${
+                  isCompleted ? "bg-accent/40" : "bg-border/40"
                 }`}
               />
             )}
 
             {/* Icon Circle */}
             <div
-              className={`relative z-10 w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-700 ${
+              className={`relative z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border transition-all duration-700 ${
                 isCompleted
-                  ? "bg-accent border-accent text-accent-foreground"
+                  ? "bg-accent border-accent text-accent-foreground shadow-md shadow-accent/20"
                   : isCurrent
-                  ? "bg-background border-accent text-accent animate-pulse"
-                  : "bg-background border-border text-muted-foreground"
+                  ? "bg-background border-accent text-accent shadow-lg shadow-accent/10 animate-pulse scale-110"
+                  : "bg-background border-border text-muted-foreground/40"
               }`}
             >
-              {isCompleted ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
+              {isCompleted ? <Check className="w-4 h-4 sm:w-5 sm:h-5" /> : <Icon className="w-4 h-4 sm:w-5 sm:h-5" />}
             </div>
 
             {/* Content */}
-            <div className={`flex flex-col text-left transition-all duration-500 ${isCurrent ? "translate-x-1" : ""}`}>
+            <div className={`flex flex-col text-left transition-all duration-500 pt-1 ${isCurrent ? "translate-x-1" : ""}`}>
               <h4
-                className={`text-sm font-medium uppercase tracking-widest ${
-                  isCurrent ? "text-foreground" : isCompleted ? "text-accent" : "text-muted-foreground"
+                className={`text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] ${
+                  isCurrent ? "text-foreground" : isCompleted ? "text-accent" : "text-muted-foreground/40"
                 }`}
               >
                 {step.label}
               </h4>
-              <p className={`text-xs mt-1 font-light ${isCurrent ? "text-muted-foreground" : "text-muted-foreground/60"}`}>
+              <p className={`text-[11px] sm:text-xs mt-1.5 font-light leading-relaxed max-w-[200px] sm:max-w-none ${
+                isCurrent ? "text-muted-foreground" : "text-muted-foreground/40"
+              }`}>
                 {step.description}
               </p>
             </div>

@@ -70,52 +70,68 @@ export function OrderStatus({ orderId, orderConfirmed, itemsCount, total, onFeed
         </button>
       </div>
 
-      <div className="flex-1 flex items-center justify-center">
-        <div className="max-w-md w-full text-center space-y-8">
-        <div>
-          <h1 className="font-serif text-4xl text-foreground font-light mb-2">Order Status</h1>
-          <p className="text-sm text-muted-foreground">
-            {displayItemsCount} items for ${displayTotal.toFixed(2)}
-          </p>
-        </div>
+      <div className="flex-1 flex items-center justify-center py-8">
+        <div className="max-w-md w-full mx-auto">
+          <div className="bg-white/80 backdrop-blur-md border border-white/20 rounded-3xl shadow-xl overflow-hidden">
+            <div className="p-6 sm:p-8 space-y-8">
+              <div className="text-center">
+                <h1 className="font-serif text-2xl sm:text-4xl text-foreground font-light mb-2">Order Status</h1>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  {displayItemsCount} items for ${displayTotal.toFixed(2)}
+                </p>
+              </div>
 
-        {error && <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{error}</div>}
+              {error && (
+                <div className="bg-red-50/50 border border-red-100 rounded-xl p-3 text-xs text-red-600">
+                  {error}
+                </div>
+              )}
 
-        <div className="space-y-6">
-          <OrderTrackingTimeline status={status as any} />
-        </div>
+              <div className="space-y-6">
+                <OrderTrackingTimeline status={status as any} />
+              </div>
 
-        {status === "preparing" && estimatedMinutesLeft > 0 && (
-          <div className="bg-secondary rounded-lg p-4 space-y-2">
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">Estimated Ready Time</p>
-            <p className="text-3xl font-light">{estimatedMinutesLeft}</p>
-            <p className="text-xs text-muted-foreground">minutes</p>
+              {status === "preparing" && estimatedMinutesLeft > 0 && (
+                <div className="bg-secondary/50 rounded-2xl p-4 text-center space-y-1">
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">Estimated Ready Time</p>
+                  <p className="text-3xl font-light text-accent">{estimatedMinutesLeft}</p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">minutes</p>
+                </div>
+              )}
+
+              <div className="space-y-3 pt-4">
+                {status === "ready" && (
+                  <>
+                    <button
+                      onClick={onFeedback}
+                      className="w-full px-6 py-4 border border-accent/20 rounded-xl hover:bg-accent/5 transition-all font-light text-sm text-accent"
+                    >
+                      Share Feedback
+                    </button>
+                    <button
+                      onClick={onNewOrder}
+                      className="w-full px-6 py-4 bg-accent hover:bg-accent/90 text-accent-foreground rounded-xl font-medium text-sm shadow-lg shadow-accent/20 transition-all active:scale-[0.98]"
+                    >
+                      Place New Order
+                    </button>
+                  </>
+                )}
+                
+                <button
+                  onClick={onNewOrder}
+                  className="w-full px-6 py-3 text-sm text-muted-foreground hover:text-foreground transition-colors font-light"
+                >
+                  Back to Menu
+                </button>
+              </div>
+            </div>
           </div>
-        )}
 
-        {status === "ready" && (
-          <div className="space-y-3 pt-4">
-            <button
-              onClick={onFeedback}
-              className="w-full px-6 py-3 border border-border rounded-lg hover:bg-secondary transition-colors font-light text-sm"
-            >
-              Share Feedback
-            </button>
-            <button
-              onClick={onNewOrder}
-              className="w-full px-6 py-3 bg-accent hover:bg-accent/90 text-accent-foreground rounded-lg font-light text-sm"
-            >
-              Place New Order
-            </button>
+          <div className="mt-8 text-center px-4">
+            <p className="text-[10px] text-muted-foreground/60 uppercase tracking-[0.2em]">
+              Real-time updates powered by Kitchen Sync™
+            </p>
           </div>
-        )}
-
-        <button
-          onClick={onNewOrder}
-          className="w-full px-6 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-light"
-        >
-          Back to Menu
-        </button>
         </div>
       </div>
     </div>
