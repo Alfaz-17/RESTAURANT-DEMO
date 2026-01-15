@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Search, ClipboardList, User } from "lucide-react"
+import { Home, Search, ClipboardList, LayoutDashboard } from "lucide-react"
 
 interface BottomNavProps {
   activeTab: string
@@ -10,9 +10,9 @@ interface BottomNavProps {
 export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
   const tabs = [
     { id: "welcome", label: "Home", icon: Home },
-    { id: "menu", label: "Browse", icon: Search },
+    { id: "menu", label: "Menu", icon: Search },
     { id: "order-status", label: "Orders", icon: ClipboardList },
-    { id: "profile", label: "Profile", icon: User },
+    { id: "new-dashboard", label: "Staff", icon: LayoutDashboard },
   ]
 
   return (

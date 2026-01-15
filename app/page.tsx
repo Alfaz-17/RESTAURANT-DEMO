@@ -33,7 +33,7 @@ import { AIFoodyModal } from "@/components/ai-foody-modal"
 import { BottomNav } from "@/components/bottom-nav"
 import { ProfileScreen } from "@/components/profile-screen"
 import { MealDetailsDrawer } from "@/components/meal-details-drawer"
-import { ServiceActionFAB } from "@/components/service-action-fab"
+
 
 interface CartItem extends MenuItem {
   quantity: number
@@ -56,7 +56,7 @@ interface ConfirmedOrder {
 function PageContent() {
   const { addOrder, addServiceRequest, categories, menuItems, isLoadingMenu } = useDashboard()
   const [pageState, setPageState] = useState<PageState>("welcome")
-  const [selectedCategory, setSelectedCategory] = useState("pizzas")
+  const [selectedCategory, setSelectedCategory] = useState("all")
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [confirmedOrder, setConfirmedOrder] = useState<ConfirmedOrder | null>(null)
@@ -71,12 +71,13 @@ function PageContent() {
   const [popularOnly, setPopularOnly] = useState(false)
   const [availableOnly, setAvailableOnly] = useState(false)
   const [isHydrated, setIsHydrated] = useState(false)
+  const [notification, setNotification] = useState<string | null>(null)
 
   // Ensure selectedCategory is valid when categories change
   useEffect(() => {
     if (categories.length > 0) {
       const exists = categories.find(c => c.id === selectedCategory)
-      if (!exists) {
+      if (!exists && selectedCategory !== "all") {
         setSelectedCategory(categories[0].id)
       }
     }
@@ -149,7 +150,11 @@ function PageContent() {
 
       return [...prev, { ...item, quantity: 1, customization }]
     })
-    setIsCartOpen(true)
+    
+    // Show notification instead of opening cart
+    setNotification(`Added ${item.name} to cart`)
+    setTimeout(() => setNotification(null), 2000)
+    // setIsCartOpen(true)
   }
 
   const handleRemoveFromCart = (itemId: string) => {
@@ -206,7 +211,10 @@ function PageContent() {
     setPageState("order-received")
   }
 
-  let filteredItems = menuItems.filter((item) => item.category === selectedCategory)
+  // Filter menu items
+  let filteredItems = selectedCategory === "all" 
+    ? menuItems 
+    : menuItems.filter((item) => item.category === selectedCategory)
 
   if (searchQuery) {
     filteredItems = filteredItems.filter(
@@ -251,7 +259,7 @@ function PageContent() {
           <MenuHeader
             cartCount={cartItems.length}
             onCartClick={() => setIsCartOpen(true)}
-            onDashboardClick={() => setPageState("new-dashboard")}
+            onServiceRequest={(type) => addServiceRequest(type as any, tableNumber)}
             onAIFoodyClick={() => setShowAIFoody(true)}
           />
 
@@ -267,7 +275,7 @@ function PageContent() {
           <main className="flex-1 overflow-y-auto w-full px-2 sm:px-4 md:px-6 pb-24 sm:pb-32 pt-4">
             <div className="max-w-7xl mx-auto space-y-6">
               {/* Popular Showcase Section - Mini Homepage */}
-              {!searchQuery && !dietaryFilter && selectedCategory === categories[0]?.id && (
+              {!searchQuery && !dietaryFilter && (
                 <section className="bg-gradient-to-br from-amber-50 to-orange-50 -mx-4 sm:-mx-6 lg:-mx-8 py-6">
                   <div className="px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between mb-4">
@@ -286,13 +294,18 @@ function PageContent() {
                   {/* Horizontal Scroll Container */}
                   <div className="flex gap-4 overflow-x-auto pb-4 px-4 sm:px-6 lg:px-8 scrollbar-hide snap-x snap-mandatory">
                     {menuItems
-                      .filter(item => item.isPopular && item.available !== false)
+                      .filter(item => {
+                        // Filter by category if not "all"
+                        const categoryMatch = selectedCategory === "all" || item.category === selectedCategory
+                        return item.isPopular && item.available !== false && categoryMatch
+                      })
                       .slice(0, 6)
                       .map((item) => (
                         <div key={`popular-${item.id}`} className="flex-shrink-0 w-64 sm:w-72 snap-start">
                           <MenuItemCard
                             item={item}
-                            onAddToCart={() => setMealDetailsItem(item)}
+                            onAddToCart={() => handleAddToCart(item)}
+                            onItemClick={() => setMealDetailsItem(item)}
                             isFavorite={favorites.has(item.id)}
                             onToggleFavorite={() => handleToggleFavorite(item.id)}
                           />
@@ -319,7 +332,8 @@ function PageContent() {
                       <MenuItemCard
                         key={item.id}
                         item={item}
-                        onAddToCart={() => setMealDetailsItem(item)}
+                        onAddToCart={() => handleAddToCart(item)}
+                        onItemClick={() => setMealDetailsItem(item)}
                         isFavorite={favorites.has(item.id)}
                         onToggleFavorite={() => handleToggleFavorite(item.id)}
                       />
@@ -356,6 +370,13 @@ function PageContent() {
             total={cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0) * 1.18}
             onClick={() => setIsCartOpen(true)}
           />
+
+          {/* Notification Toast */}
+          {notification && (
+            <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-md animate-in fade-in slide-in-from-bottom-4 z-50 shadow-lg">
+              {notification}
+            </div>
+          )}
 
         </div>
       )}
@@ -501,7 +522,7 @@ function PageContent() {
       )}
 
       {/* Modern Bottom Navigation (Mobile-first) */}
-      {["welcome", "menu", "order-status", "profile"].includes(pageState) && (
+      {["welcome", "menu", "order-status", "new-dashboard"].includes(pageState) && (
         <BottomNav 
           activeTab={pageState} 
           onTabChange={(tab) => setPageState(tab as PageState)} 
@@ -509,7 +530,7 @@ function PageContent() {
       )}
 
       {/* Service Quick Actions (Mobile-first) */}
-      {["menu", "order-status"].includes(pageState) && <ServiceActionFAB />}
+
     </>
   )
 }

@@ -2,35 +2,20 @@
 
 import { useState, useEffect } from "react"
 import { useDashboard } from "@/lib/dashboard-context"
-import { ChevronLeft, Zap, Package, UtensilsCrossed, BarChart3, TrendingUp } from "lucide-react"
+import { Search, Bell, Menu as MenuIcon, User } from "lucide-react"
 
-
-// Tab components
+// Components
+import { AdminSidebar, type AdminView } from "./admin-sidebar"
 import { KitchenView } from "./tabs/kitchen-view"
 import { AIToolsTab } from "./tabs/ai-tools-tab"
 import { InventoryTab } from "./tabs/inventory-tab"
 import { MenuControlTab } from "./tabs/menu-control-tab"
 import { ReportsTab } from "./tabs/reports-tab"
-
-type DashboardMode = "kitchen" | "analytics"
-type KitchenTabType = "orders" | "menu"
-type AnalyticsTabType = "reports" | "inventory" | "ai"
-
-const KITCHEN_TABS = [
-  { id: "orders", label: "Active Orders", icon: UtensilsCrossed },
-  { id: "menu", label: "Menu Control", icon: Package },
-]
-
-const ANALYTICS_TABS = [
-  { id: "reports", label: "Reports", icon: BarChart3 },
-  { id: "inventory", label: "Inventory", icon: TrendingUp },
-  { id: "ai", label: "AI Tools", icon: Zap },
-]
+import { OverviewTab } from "./tabs/overview-tab"
 
 export function OwnerDashboard({ onBackToMenu }: { onBackToMenu: () => void }) {
-  const [dashboardMode, setDashboardMode] = useState<DashboardMode>("kitchen")
-  const [kitchenTab, setKitchenTab] = useState<KitchenTabType>("orders")
-  const [analyticsTab, setAnalyticsTab] = useState<AnalyticsTabType>("reports")
+  const [currentView, setCurrentView] = useState<AdminView>("overview")
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [refreshTrigger, setRefreshTrigger] = useState(0)
   const { getTodayOrders, serviceRequests } = useDashboard()
 
@@ -44,98 +29,92 @@ export function OwnerDashboard({ onBackToMenu }: { onBackToMenu: () => void }) {
 
   const liveOrders = getTodayOrders().filter((o) => o.status !== "served")
 
-  const currentTabs = dashboardMode === "kitchen" ? KITCHEN_TABS : ANALYTICS_TABS
-  const activeTab = dashboardMode === "kitchen" ? kitchenTab : analyticsTab
+  // View Mapping
+  const renderContent = () => {
+    switch (currentView) {
+      case "overview":
+        return <OverviewTab />
+      case "kitchen":
+        return <KitchenView refreshTrigger={refreshTrigger} liveOrders={liveOrders} />
+      case "menu":
+        return <MenuControlTab />
+      case "inventory":
+        return <InventoryTab refreshTrigger={refreshTrigger} />
+      case "reports":
+        return <ReportsTab />
+      case "ai":
+        return <AIToolsTab />
+      case "settings":
+        return (
+          <div className="flex items-center justify-center h-[50vh] text-muted-foreground">
+            Settings Panel (Coming Soon)
+          </div>
+        )
+      default:
+        return <OverviewTab />
+    }
+  }
+
+  // Header Titles
+  const viewTitles: Record<AdminView, string> = {
+    overview: "Dashboard Overview",
+    kitchen: "Kitchen Display System",
+    menu: "Menu Management",
+    inventory: "Inventory Control",
+    reports: "Analytics & Reports",
+    ai: "AI Assistant",
+    settings: "System Settings",
+  }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="border-b border-border bg-card sticky top-0 z-40" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
-        <div className="w-full px-3 sm:px-6 lg:px-8 py-3 sm:py-4">
-          <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2">
-            <button
-              onClick={onBackToMenu}
-              className="p-2 -ml-2 hover:bg-secondary rounded-full transition-colors flex items-center justify-center"
+    <div className="flex h-screen bg-gray-50/50">
+      <AdminSidebar
+        currentView={currentView}
+        onViewChange={setCurrentView}
+        onLogout={onBackToMenu}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
+
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top Header */}
+        <header className="h-16 border-b border-border bg-white flex items-center justify-between px-6 sticky top-0 z-30">
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="lg:hidden p-2 hover:bg-secondary rounded-lg"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <MenuIcon className="w-5 h-5" />
             </button>
-            <h1 className="font-serif text-xl sm:text-2xl font-light flex-1 text-center">
-              {dashboardMode === "kitchen" ? "Kitchen Dashboard" : "Analytics Dashboard"}
+            <h1 className="text-lg font-semibold text-foreground hidden sm:block">
+              {viewTitles[currentView]}
             </h1>
-            <div className="w-9" /> {/* Spacer for centering */}
           </div>
 
-          {/* Dashboard Mode Selector */}
-          <div className="flex gap-2 mb-4">
-            <button
-              onClick={() => setDashboardMode("kitchen")}
-              className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                dashboardMode === "kitchen"
-                  ? "bg-red-500 text-white shadow-lg"
-                  : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-              }`}
-            >
-              🔥 Kitchen
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-secondary/50 rounded-lg text-sm text-muted-foreground min-w-[200px]">
+              <Search className="w-4 h-4" />
+              <span>Search...</span>
+            </div>
+            
+            <button className="relative p-2 hover:bg-secondary rounded-full transition-colors">
+              <Bell className="w-5 h-5 text-gray-500" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
             </button>
-            <button
-              onClick={() => setDashboardMode("analytics")}
-              className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
-                dashboardMode === "analytics"
-                  ? "bg-blue-500 text-white shadow-lg"
-                  : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-              }`}
-            >
-              📊 Analytics
-            </button>
+            
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white font-bold text-xs ring-2 ring-white shadow-md">
+              AD
+            </div>
           </div>
+        </header>
 
-          {/* Tab Navigation */}
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-            {currentTabs.map((tab) => {
-              const Icon = tab.icon
-              const isActive = activeTab === tab.id
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => {
-                    if (dashboardMode === "kitchen") {
-                      setKitchenTab(tab.id as KitchenTabType)
-                    } else {
-                      setAnalyticsTab(tab.id as AnalyticsTabType)
-                    }
-                  }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap transition-all text-sm font-medium ${
-                    isActive
-                      ? "bg-accent text-accent-foreground shadow-md"
-                      : "bg-secondary/50 text-muted-foreground hover:bg-secondary"
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </button>
-              )
-            })}
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scrollbar-hide">
+          <div className="max-w-7xl mx-auto w-full">
+            {renderContent()}
           </div>
-        </div>
+        </main>
       </div>
-
-      <main className="w-full px-3 sm:px-6 lg:px-8 py-4 sm:py-6" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-        {/* Kitchen Dashboard Content */}
-        {dashboardMode === "kitchen" && (
-          <>
-            {kitchenTab === "orders" && <KitchenView refreshTrigger={refreshTrigger} liveOrders={liveOrders} />}
-            {kitchenTab === "menu" && <MenuControlTab />}
-          </>
-        )}
-
-        {/* Analytics Dashboard Content */}
-        {dashboardMode === "analytics" && (
-          <>
-            {analyticsTab === "reports" && <ReportsTab />}
-            {analyticsTab === "inventory" && <InventoryTab refreshTrigger={refreshTrigger} />}
-            {analyticsTab === "ai" && <AIToolsTab />}
-          </>
-        )}
-      </main>
     </div>
   )
 }
