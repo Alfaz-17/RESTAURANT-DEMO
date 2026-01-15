@@ -304,6 +304,7 @@ function PageContent() {
                         <div key={`popular-${item.id}`} className="flex-shrink-0 w-64 sm:w-72 snap-start">
                           <MenuItemCard
                             item={item}
+                            variant="featured"
                             onAddToCart={() => handleAddToCart(item)}
                             onItemClick={() => setMealDetailsItem(item)}
                             isFavorite={favorites.has(item.id)}

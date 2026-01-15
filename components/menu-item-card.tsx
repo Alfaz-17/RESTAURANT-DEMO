@@ -9,15 +9,21 @@ interface MenuItemCardProps {
   onItemClick?: (item: MenuItem) => void
   isFavorite?: boolean
   onToggleFavorite?: () => void
+  variant?: "default" | "featured"
 }
 
-export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardProps) {
+export function MenuItemCard({ item, onAddToCart, onItemClick, variant = "default" }: MenuItemCardProps) {
   // Generate random rating between 4.0-5.0 for demo
   const rating = (4.0 + Math.random()).toFixed(1)
+  const isFeatured = variant === "featured"
 
   return (
-    <div className={`relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 ${
+    <div className={`relative bg-white rounded-2xl overflow-hidden transition-all duration-300 ${
       item.available === false ? "grayscale opacity-60" : ""
+    } ${
+      isFeatured 
+        ? "border-2 border-amber-500 shadow-xl shadow-amber-500/20 scale-[1.02]" 
+        : "shadow-md hover:shadow-xl border border-transparent"
     }`}>
       {/* Image - Clickable for details */}
       <div 
@@ -30,11 +36,15 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
           className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
         
-        {/* Popular Badge */}
-        {item.isPopular && item.available !== false && (
+        {/* Featured Badge */}
+        {(item.isPopular || isFeatured) && item.available !== false && (
           <div className="absolute top-3 left-3">
-            <span className="bg-amber-900 text-white px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">
-              Popular
+            <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${
+              isFeatured 
+                ? "bg-amber-500 text-white shadow-lg" 
+                : "bg-amber-900 text-white"
+            }`}>
+              {isFeatured ? "Must Try" : "Popular"}
             </span>
           </div>
         )}
@@ -55,10 +65,10 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className={`p-4 ${isFeatured ? "bg-gradient-to-b from-amber-50/50 to-white" : ""}`}>
         {/* Rating */}
         <div className="flex items-center gap-1 mb-2">
-          <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+          <Star className={`w-4 h-4 ${isFeatured ? "fill-amber-500 text-amber-500" : "fill-amber-400 text-amber-400"}`} />
           <span className="text-sm font-bold text-foreground">{rating}</span>
         </div>
 
@@ -83,7 +93,11 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
                  e.stopPropagation()
                  onItemClick?.(item)
                }}
-               className="p-2.5 rounded-lg border border-input text-muted-foreground hover:text-foreground hover:bg-accent hover:border-accent transition-all duration-300"
+               className={`p-2.5 rounded-lg border transition-all duration-300 ${
+                 isFeatured 
+                   ? "border-amber-200 text-amber-700 hover:bg-amber-100" 
+                   : "border-input text-muted-foreground hover:text-foreground hover:bg-accent"
+               }`}
                aria-label="Customize"
             >
               <SlidersHorizontal className="w-5 h-5" />
@@ -94,7 +108,11 @@ export function MenuItemCard({ item, onAddToCart, onItemClick }: MenuItemCardPro
                 onAddToCart(item)
               }}
               disabled={item.available === false}
-              className="bg-amber-900 hover:bg-amber-800 active:bg-amber-950 text-white px-6 py-2.5 rounded-lg font-bold uppercase tracking-wide text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+              className={`px-6 py-2.5 rounded-lg font-bold uppercase tracking-wide text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg ${
+                isFeatured
+                  ? "bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-amber-500/25"
+                  : "bg-amber-900 hover:bg-amber-800 active:bg-amber-950 text-white"
+              }`}
             >
               Add
             </button>
