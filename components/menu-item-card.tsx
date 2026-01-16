@@ -65,42 +65,42 @@ export function MenuItemCard({ item, onAddToCart, onItemClick, variant = "defaul
       </div>
 
       {/* Content */}
-      <div className={`p-4 ${isFeatured ? "bg-gradient-to-b from-amber-50/50 to-white" : ""}`}>
-        {/* Rating */}
-        <div className="flex items-center gap-1 mb-2">
-          <Star className={`w-4 h-4 ${isFeatured ? "fill-amber-500 text-amber-500" : "fill-amber-400 text-amber-400"}`} />
-          <span className="text-sm font-bold text-foreground">{rating}</span>
+      <div className={`${isFeatured ? "p-4 bg-gradient-to-b from-amber-50/50 to-white" : "p-3 sm:p-4"}`}>
+        {/* Rating and Name - Clickable for details */}
+        <div className="cursor-pointer group" onClick={() => onItemClick?.(item)}>
+          {/* Rating */}
+          <div className="flex items-center gap-1 mb-1">
+            <Star className={`w-3 h-3 sm:w-4 sm:h-4 ${isFeatured ? "fill-amber-500 text-amber-500" : "fill-amber-400 text-amber-400"}`} />
+            <span className="text-xs sm:text-sm font-bold text-foreground">{rating}</span>
+          </div>
+
+          {/* Name */}
+          <h3 className="font-bold text-[15px] sm:text-lg text-foreground mb-2 line-clamp-1 group-hover:text-amber-700">
+            {item.name}
+          </h3>
         </div>
 
-        {/* Name - Clickable for details */}
-        <h3 
-          className="font-bold text-base sm:text-lg text-foreground mb-2 line-clamp-1 cursor-pointer hover:text-amber-700"
-          onClick={() => onItemClick?.(item)}
-        >
-          {item.name}
-        </h3>
-
         {/* Price and Add Button */}
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Price</p>
-            <p className="text-xl font-bold text-foreground">₹{item.price}</p>
+        <div className="flex items-center justify-between gap-2 sm:gap-4">
+          <div className="min-w-0">
+            <p className="hidden sm:block text-[10px] text-muted-foreground uppercase tracking-wide mb-1">Price</p>
+            <p className="text-lg sm:text-xl font-bold text-foreground truncate">₹{item.price}</p>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
                onClick={(e) => {
                  e.stopPropagation()
                  onItemClick?.(item)
                }}
-               className={`p-2.5 rounded-lg border transition-all duration-300 ${
+               className={`p-2 sm:p-2.5 rounded-lg border transition-all duration-300 ${
                  isFeatured 
                    ? "border-amber-200 text-amber-700 hover:bg-amber-100" 
                    : "border-input text-muted-foreground hover:text-foreground hover:bg-accent"
                }`}
                aria-label="Customize"
             >
-              <SlidersHorizontal className="w-5 h-5" />
+              <SlidersHorizontal className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             <button
               onClick={(e) => {
@@ -108,7 +108,7 @@ export function MenuItemCard({ item, onAddToCart, onItemClick, variant = "defaul
                 onAddToCart(item)
               }}
               disabled={item.available === false}
-              className={`px-6 py-2.5 rounded-lg font-bold uppercase tracking-wide text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg ${
+              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-bold uppercase tracking-wide text-[10px] sm:text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg ${
                 isFeatured
                   ? "bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-amber-500/25"
                   : "bg-amber-900 hover:bg-amber-800 active:bg-amber-950 text-white"
