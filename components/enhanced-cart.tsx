@@ -98,8 +98,7 @@ export function EnhancedCartPanel({
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl z-[60] max-h-[85vh] flex flex-col"
-            style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)' }}
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl z-[60] max-h-[88dvh] flex flex-col pb-safe"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-border/30">

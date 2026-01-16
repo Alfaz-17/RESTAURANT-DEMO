@@ -35,7 +35,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   }
 
   return (
-    <div className="relative min-h-screen bg-black overflow-hidden flex flex-col items-center justify-center p-6 text-center">
+    <div className="relative min-h-screen-dynamic bg-black overflow-hidden flex flex-col items-center justify-center p-6 text-center pt-safe pb-safe">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 z-0">
         <img 

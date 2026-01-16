@@ -93,8 +93,8 @@ export function ItemCustomizationModal({ item, isOpen, onClose, onConfirm }: Ite
   if (!isOpen || !item) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex items-end sm:items-center justify-center">
-      <div className="w-full sm:max-w-md bg-card rounded-t-2xl sm:rounded-2xl border border-border max-h-[80vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex items-end sm:items-center justify-center pt-safe">
+      <div className="w-full sm:max-w-md bg-card rounded-t-2xl sm:rounded-2xl border border-border max-h-[88dvh] sm:max-h-[80vh] overflow-y-auto pb-safe">
         <div className="sticky top-0 bg-card border-b border-border p-4 sm:p-6 flex items-center justify-between z-10">
           <h3 className="font-serif text-xl text-foreground">Customize {item.name}</h3>
           <button onClick={onClose} className="p-1 hover:bg-secondary rounded transition-colors">

@@ -36,8 +36,8 @@ export function AIFoodyModal({ isOpen, onClose, menuItems, onSelectItem }: AIFoo
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-background rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-0 sm:p-4">
+      <div className="bg-background rounded-t-[32px] sm:rounded-lg max-w-md w-full max-h-[92dvh] overflow-y-auto sm:max-h-[90vh] self-end sm:self-center pt-safe pb-safe">
         {/* Header */}
         <div className="sticky top-0 bg-background border-b border-border p-4 sm:p-6 flex items-center justify-between">
           <h2 className="font-serif text-2xl text-foreground">AI Foody</h2>

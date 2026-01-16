@@ -41,7 +41,7 @@ export function FilterDrawer({
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40 z-50 backdrop-blur-sm" />
-        <Drawer.Content className="bg-background border-t border-border flex flex-col rounded-t-[32px] h-[70vh] fixed bottom-0 left-0 right-0 z-50 outline-none">
+        <Drawer.Content className="bg-background border-t border-border flex flex-col rounded-t-[32px] h-[70dvh] fixed bottom-0 left-0 right-0 z-50 outline-none">
           <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-border mt-4 mb-8" />
           
           <div className="flex-1 overflow-y-auto px-6 pb-8 space-y-8">
@@ -114,7 +114,7 @@ export function FilterDrawer({
             </div>
           </div>
 
-          <div className="p-6 border-t border-border mt-auto">
+          <div className="p-6 border-t border-border mt-auto pb-safe">
             <Drawer.Close asChild>
               <button className="w-full bg-accent text-accent-foreground py-4 rounded-xl font-medium shadow-lg shadow-accent/20">
                 Apply Filters

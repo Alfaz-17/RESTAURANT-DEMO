@@ -7,7 +7,7 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ onToggle, isDashboard }: DashboardHeaderProps) {
   return (
-    <div className="flex items-center justify-between border-b border-border px-6 py-4 bg-background">
+    <div className="flex items-center justify-between border-b border-border px-6 py-4 bg-background pt-safe">
       <div>
         <h1 className="font-serif text-2xl text-foreground font-light">AI Menu System</h1>
         <p className="text-sm text-muted-foreground mt-1">{isDashboard ? "Owner Dashboard" : "Guest Menu"}</p>

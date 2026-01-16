@@ -11,7 +11,7 @@ export function ProfileScreen() {
   ]
 
   return (
-    <div className="min-h-screen bg-background safe-area-inset px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
+    <div className="min-h-screen-dynamic bg-background safe-area-inset px-4 sm:px-6 lg:px-8 py-8 flex flex-col pt-safe">
       <div className="max-w-md mx-auto w-full">
         {/* Profile Header */}
         <div className="flex flex-col items-center mb-8">

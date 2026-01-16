@@ -16,7 +16,7 @@ export function KitchenHeader() {
   ]
 
   return (
-    <header className="bg-background border-b border-border">
+    <header className="bg-background border-b border-border pt-safe">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <h1 className="font-serif text-3xl text-foreground mb-6">Owner Dashboard</h1>
 

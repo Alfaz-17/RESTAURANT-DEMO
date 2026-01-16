@@ -21,7 +21,7 @@ export function MenuHeader({ cartCount, onCartClick, onServiceRequest }: MenuHea
   }
 
   return (
-    <div className="bg-white border-b border-gray-100" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+    <div className="bg-white border-b border-gray-100 pt-safe">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
         {/* Logo/Title */}
         <div className="flex-1 min-w-0">
