@@ -9,6 +9,7 @@ import { MenuItemCard } from "@/components/menu-item-card"
 import { EnhancedCartPanel, FloatingCartButton } from "@/components/enhanced-cart"
 import { OrderConfirmation } from "@/components/order-confirmation"
 import { OrderStatus } from "@/components/order-status"
+import { AnimatePresence, motion } from "framer-motion"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { DashboardTodayGlance } from "@/components/dashboard-today-glance"
 import { DashboardOrdersFlow } from "@/components/dashboard-orders-flow"
@@ -250,12 +251,39 @@ function PageContent() {
       )}
 
       {/* existing page state rendering */}
-      {pageState === "welcome" && <WelcomeScreen onStart={() => setPageState("menu")} />}
+      <AnimatePresence mode="wait">
+        {pageState === "welcome" && (
+          <motion.div
+            key="welcome"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <WelcomeScreen onStart={() => setPageState("menu")} />
+          </motion.div>
+        )}
 
-      {pageState === "menu" && isLoadingMenu && <MenuSkeletonLoader />}
+        {pageState === "menu" && isLoadingMenu && (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <MenuSkeletonLoader />
+          </motion.div>
+        )}
 
-      {pageState === "menu" && (
-        <div className="min-h-screen-dynamic bg-background safe-area-inset flex flex-col">
+        {pageState === "menu" && !isLoadingMenu && (
+          <motion.div
+            key="menu"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="min-h-screen-dynamic bg-background safe-area-inset flex flex-col"
+          >
           <MenuHeader
             cartCount={cartItems.length}
             onCartClick={() => setIsCartOpen(true)}
@@ -275,7 +303,7 @@ function PageContent() {
           <main className="flex-1 overflow-y-auto w-full px-2 sm:px-4 md:px-6 pb-24 sm:pb-32 pt-4">
             <div className="max-w-7xl mx-auto space-y-6">
               {/* Popular Showcase Section - Mini Homepage */}
-              {!searchQuery && !dietaryFilter && (
+              {!searchQuery && !dietaryFilter && selectedCategory === "all" && (
                 <section className="bg-gradient-to-br from-amber-50 to-orange-50 -mx-4 sm:-mx-6 lg:-mx-8 py-6">
                   <div className="px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between mb-4">
@@ -379,45 +407,65 @@ function PageContent() {
             </div>
           )}
 
-        </div>
+        </motion.div>
       )}
 
       {pageState === "order-received" && (
-        <OrderReceivedScreen
-          orderTotal={confirmedOrder?.total || 0}
-          itemsCount={confirmedOrder?.items.length || 0}
-          onBackToMenu={() => {
-            setPageState("menu")
-            setConfirmedOrder(null)
-            setCurrentOrderId("")
-            setCartItems([])
-            setIsCartOpen(false)
-          }}
-          onNavigateToDashboard={() => {
-            setPageState("order-status")
-          }}
-        />
+        <motion.div
+          key="order-received"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 1.05 }}
+        >
+          <OrderReceivedScreen
+            orderTotal={confirmedOrder?.total || 0}
+            itemsCount={confirmedOrder?.items.length || 0}
+            onBackToMenu={() => {
+              setPageState("menu")
+              setConfirmedOrder(null)
+              setCurrentOrderId("")
+              setCartItems([])
+              setIsCartOpen(false)
+            }}
+            onNavigateToDashboard={() => {
+              setPageState("order-status")
+            }}
+          />
+        </motion.div>
       )}
 
       {pageState === "order-status" && (
-        <OrderStatus
-          orderId={currentOrderId}
-          orderConfirmed={!!confirmedOrder}
-          itemsCount={confirmedOrder?.items.length || 0}
-          total={confirmedOrder?.total || 0}
-          onFeedback={() => setPageState("feedback")}
-          onNewOrder={() => {
-            setPageState("menu")
-            setConfirmedOrder(null)
-            setCurrentOrderId("")
-            setCartItems([])
-            setIsCartOpen(false)
-          }}
-        />
+        <motion.div
+          key="order-status"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+        >
+          <OrderStatus
+            orderId={currentOrderId}
+            orderConfirmed={!!confirmedOrder}
+            itemsCount={confirmedOrder?.items.length || 0}
+            total={confirmedOrder?.total || 0}
+            onFeedback={() => setPageState("feedback")}
+            onNewOrder={() => {
+              setPageState("menu")
+              setConfirmedOrder(null)
+              setCurrentOrderId("")
+              setCartItems([])
+              setIsCartOpen(false)
+            }}
+          />
+        </motion.div>
       )}
 
       {pageState === "feedback" && (
-        <div className="min-h-screen-dynamic bg-background flex items-center justify-center p-4">
+        <motion.div
+          key="feedback"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="min-h-screen-dynamic bg-background flex items-center justify-center p-4"
+        >
           <div className="max-w-md text-center space-y-6">
             <h1 className="font-serif text-4xl text-foreground font-light">Thank You</h1>
             <p className="text-muted-foreground">Your feedback helps us improve your dining experience.</p>
@@ -428,16 +476,22 @@ function PageContent() {
                 setCurrentOrderId("")
                 setCartItems([])
               }}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-3 rounded transition-colors font-light"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-3 rounded transition-colors font-light active-press"
             >
               Return to Welcome
             </button>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {pageState === "dashboard" && (
-        <div className="min-h-screen-dynamic bg-background">
+        <motion.div
+          key="dashboard-old"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="min-h-screen-dynamic bg-background"
+        >
           <DashboardHeader onToggle={() => setPageState("menu")} isDashboard={true} />
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <section className="mb-8">
@@ -500,18 +554,31 @@ function PageContent() {
               </div>
             </section>
           </main>
-        </div>
+        </motion.div>
       )}
 
       {pageState === "new-dashboard" && (
-        <OwnerDashboard 
-          onBackToMenu={() => setPageState("menu")} 
-        />
+        <motion.div
+          key="dashboard"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+        >
+          <OwnerDashboard 
+            onBackToMenu={() => setPageState("menu")} 
+          />
+        </motion.div>
       )}
 
       {/* Profile Section */}
       {pageState === "profile" && (
-        <div className="flex flex-col min-h-screen-dynamic pb-24 sm:pb-32">
+        <motion.div
+          key="profile"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="flex flex-col min-h-screen-dynamic pb-24 sm:pb-32"
+        >
           <MenuHeader
             cartCount={cartItems.length}
             onCartClick={() => setIsCartOpen(true)}
@@ -519,8 +586,9 @@ function PageContent() {
             onAIFoodyClick={() => setShowAIFoody(true)}
           />
           <ProfileScreen />
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* Modern Bottom Navigation (Mobile-first) */}
       {["welcome", "menu", "order-status", "new-dashboard"].includes(pageState) && (

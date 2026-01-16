@@ -133,11 +133,66 @@
   .mt-safe {
     margin-top: env(safe-area-inset-top);
   }
+  /* Native Feel Enhancements */
   .h-screen-dynamic {
     height: 100dvh;
   }
   .min-h-screen-dynamic {
     min-height: 100dvh;
+  }
+}
+
+/* Base Global Polish */
+@layer base {
+  html, body {
+    /* Prevent body rubber-banding while allowing content scroll */
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Essential UI elements that should NOT be selectable */
+  button, 
+  [role="button"], 
+  nav, 
+  a, 
+  header {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+  }
+
+  /* Allow selection in inputs */
+  input, textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  /* Prevent image dragging (native feel) */
+  img {
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+
+  /* Custom scrollbar handling */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Interaction States for Native Feel */
+@layer utilities {
+  .active-press {
+    transition: transform 0.1s ease;
+  }
+  .active-press:active {
+    transform: scale(0.97);
+    opacity: 0.8;
+  }
+  .active-opacity:active {
+    opacity: 0.7;
   }
 }
 

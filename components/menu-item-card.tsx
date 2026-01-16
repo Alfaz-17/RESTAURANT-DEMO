@@ -93,7 +93,7 @@ export function MenuItemCard({ item, onAddToCart, onItemClick, variant = "defaul
                  e.stopPropagation()
                  onItemClick?.(item)
                }}
-               className={`p-2 sm:p-2.5 rounded-lg border transition-all duration-300 ${
+               className={`p-2 sm:p-2.5 rounded-lg border transition-all duration-300 active-press ${
                  isFeatured 
                    ? "border-amber-200 text-amber-700 hover:bg-amber-100" 
                    : "border-input text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -108,7 +108,7 @@ export function MenuItemCard({ item, onAddToCart, onItemClick, variant = "defaul
                 onAddToCart(item)
               }}
               disabled={item.available === false}
-              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-bold uppercase tracking-wide text-[10px] sm:text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg ${
+              className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg font-bold uppercase tracking-wide text-[10px] sm:text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg active-press ${
                 isFeatured
                   ? "bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-amber-500/25"
                   : "bg-amber-900 hover:bg-amber-800 active:bg-amber-950 text-white"
