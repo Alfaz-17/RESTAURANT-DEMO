@@ -86,7 +86,7 @@ export function MealDetailsDrawer({ item, isOpen, onClose, onAddToCart }: MealDe
     <Drawer.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/50 z-50 backdrop-blur-md" />
-        <Drawer.Content className="bg-background border-t border-border flex flex-col rounded-t-[32px] h-[92vh] fixed bottom-0 left-0 right-0 z-50 outline-none overflow-hidden">
+        <Drawer.Content className="bg-background border-t border-border flex flex-col rounded-t-[32px] h-[92dvh] fixed bottom-0 left-0 right-0 z-50 outline-none overflow-hidden">
           <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-border mt-4 mb-4" />
           
           <div className="flex-1 overflow-y-auto pb-48">

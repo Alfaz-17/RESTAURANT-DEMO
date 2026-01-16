@@ -116,6 +116,28 @@
   }
   body {
     @apply bg-background text-foreground;
+    min-height: 100dvh;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+  .mt-safe {
+    margin-top: env(safe-area-inset-top);
+  }
+  .h-screen-dynamic {
+    height: 100dvh;
+  }
+  .min-h-screen-dynamic {
+    min-height: 100dvh;
   }
 }
 

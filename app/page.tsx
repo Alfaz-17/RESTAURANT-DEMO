@@ -255,7 +255,7 @@ function PageContent() {
       {pageState === "menu" && isLoadingMenu && <MenuSkeletonLoader />}
 
       {pageState === "menu" && (
-        <div className="min-h-screen bg-background safe-area-inset flex flex-col">
+        <div className="min-h-screen-dynamic bg-background safe-area-inset flex flex-col">
           <MenuHeader
             cartCount={cartItems.length}
             onCartClick={() => setIsCartOpen(true)}
