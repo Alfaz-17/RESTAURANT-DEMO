@@ -17,7 +17,7 @@ export function DashboardSidebar({ onBackToMenu }: { onBackToMenu: () => void })
   ]
 
   return (
-    <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
+    <aside className="w-64 bg-card border-r border-border min-h-screen-dynamic flex flex-col">
       <div className="p-6 border-b border-border">
         <button
           onClick={onBackToMenu}

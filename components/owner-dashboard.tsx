@@ -46,7 +46,7 @@ export function OwnerDashboard({ onBackToMenu }: { onBackToMenu: () => void }) {
         return <AIToolsTab />
       case "settings":
         return (
-          <div className="flex items-center justify-center h-[50vh] text-muted-foreground">
+          <div className="flex items-center justify-center h-[50dvh] text-muted-foreground">
             Settings Panel (Coming Soon)
           </div>
         )

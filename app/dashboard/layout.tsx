@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <DashboardProvider>
-      <div className="flex min-h-screen bg-background">
+      <div className="flex min-h-screen-dynamic bg-background">
         <DashboardSidebar onBackToMenu={handleBackToMenu} />
         <main className="flex-1 overflow-y-auto">
           <div className="w-full px-6 lg:px-8 py-8">{children}</div>

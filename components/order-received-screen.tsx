@@ -36,7 +36,7 @@ export function OrderReceivedScreen({
   }, [isProcessing, onNavigateToDashboard])
 
   return (
-    <div className="min-h-screen bg-background flex flex-col p-4 relative" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+    <div className="min-h-screen-dynamic bg-background flex flex-col p-4 relative" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
       <div className="absolute left-4 z-10" style={{ top: 'calc(env(safe-area-inset-top) + 16px)' }}>
         <button
           onClick={onBackToMenu}

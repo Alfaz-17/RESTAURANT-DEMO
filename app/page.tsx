@@ -417,7 +417,7 @@ function PageContent() {
       )}
 
       {pageState === "feedback" && (
-        <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="min-h-screen-dynamic bg-background flex items-center justify-center p-4">
           <div className="max-w-md text-center space-y-6">
             <h1 className="font-serif text-4xl text-foreground font-light">Thank You</h1>
             <p className="text-muted-foreground">Your feedback helps us improve your dining experience.</p>
@@ -437,7 +437,7 @@ function PageContent() {
       )}
 
       {pageState === "dashboard" && (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen-dynamic bg-background">
           <DashboardHeader onToggle={() => setPageState("menu")} isDashboard={true} />
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <section className="mb-8">
@@ -511,7 +511,7 @@ function PageContent() {
 
       {/* Profile Section */}
       {pageState === "profile" && (
-        <div className="flex flex-col min-h-screen pb-24 sm:pb-32">
+        <div className="flex flex-col min-h-screen-dynamic pb-24 sm:pb-32">
           <MenuHeader
             cartCount={cartItems.length}
             onCartClick={() => setIsCartOpen(true)}

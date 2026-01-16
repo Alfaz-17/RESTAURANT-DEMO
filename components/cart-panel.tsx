@@ -38,7 +38,7 @@ export function CartPanel({ items, isOpen, onRemove, onUpdateQuantity, onConfirm
   return (
     <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm" onClick={onConfirm}>
       <div 
-        className="fixed bottom-0 left-0 right-0 bg-card border-t border-border rounded-t-2xl max-h-[75vh] overflow-y-auto shadow-2xl" 
+        className="fixed bottom-0 left-0 right-0 bg-card border-t border-border rounded-t-2xl max-h-[75dvh] overflow-y-auto shadow-2xl" 
         style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 80px)' }}
         onClick={(e) => e.stopPropagation()}
       >

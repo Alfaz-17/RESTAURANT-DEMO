@@ -59,7 +59,7 @@ export function OrderStatus({ orderId, orderConfirmed, itemsCount, total, onFeed
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col p-4 pb-24 relative" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 16px)' }}>
+    <div className="min-h-screen-dynamic bg-background flex flex-col p-4 pb-24 relative" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 16px)' }}>
       <div className="absolute top-4 left-4 z-10">
         <button
           onClick={onNewOrder}
