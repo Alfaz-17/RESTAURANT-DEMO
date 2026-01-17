@@ -47,26 +47,26 @@ export function AdminSidebar({ currentView, onViewChange, onLogout, isOpen, onCl
       {/* Sidebar Container */}
       <aside 
         className={`
-          fixed top-0 left-0 bottom-0 z-50 w-64 bg-[#1a1c23] text-gray-400
-          transition-transform duration-300 ease-in-out border-r border-white/5
+          fixed top-0 left-0 bottom-0 z-50 w-64 bg-white text-muted-foreground
+          transition-transform duration-300 ease-in-out border-r border-border
           flex flex-col
           lg:translate-x-0 lg:static
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
         {/* Header */}
-        <div className="h-16 flex items-center justify-between px-6 border-b border-white/5">
-          <div className="flex items-center gap-2 text-white font-serif tracking-wider">
-            <span className="text-amber-500 text-2xl">❖</span>
-            <span className="font-medium">COMMAND<span className="text-amber-500">CENTER</span></span>
+        <div className="h-20 flex items-center justify-between px-6 border-b border-border">
+          <div className="flex flex-col">
+            <span className="font-serif text-lg text-foreground font-bold tracking-tight uppercase leading-none">Saffron & Gold</span>
+            <span className="text-[9px] text-muted-foreground uppercase tracking-[0.2em] mt-1 font-semibold italic">Admin Suite</span>
           </div>
-          <button onClick={onClose} className="lg:hidden text-gray-400 hover:text-white">
+          <button onClick={onClose} className="lg:hidden text-muted-foreground hover:text-foreground">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1">
+        <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1.5 scrollbar-hide">
           {MENU_ITEMS.map((item) => {
             const Icon = item.icon
             const isActive = currentView === item.id
@@ -78,14 +78,14 @@ export function AdminSidebar({ currentView, onViewChange, onLogout, isOpen, onCl
                   onClose()
                 }}
                 className={`
-                  w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200
+                  w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold tracking-wide uppercase text-[10px] transition-all duration-300 active-press
                   ${isActive 
-                    ? "bg-amber-500/10 text-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.1)]" 
-                    : "hover:bg-white/5 hover:text-white"
+                    ? "bg-amber-500 text-white shadow-lg shadow-amber-500/20" 
+                    : "hover:bg-secondary text-muted-foreground hover:text-foreground"
                   }
                 `}
               >
-                <Icon className={`w-5 h-5 ${isActive ? "text-amber-500" : "text-gray-500"}`} />
+                <Icon className={`w-4 h-4 ${isActive ? "text-white" : "opacity-60"}`} />
                 {item.label}
               </button>
             )
@@ -93,17 +93,17 @@ export function AdminSidebar({ currentView, onViewChange, onLogout, isOpen, onCl
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-white/5">
+        <div className="p-6 border-t border-border space-y-4">
           <button
             onClick={onLogout}
-            className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-rose-500 border border-rose-100 hover:bg-rose-50 transition-colors active-press"
           >
-            <LogOut className="w-5 h-5" />
-            Exit to Menu
+            <LogOut className="w-4 h-4" />
+            Exit System
           </button>
           
-          <div className="mt-4 px-3 text-[10px] uppercase tracking-widest text-gray-600 font-medium text-center">
-            v2.4.0 • Enterprise
+          <div className="text-[8px] uppercase tracking-[0.3em] text-muted-foreground/40 font-bold text-center">
+            Maitre d' OS v2.4
           </div>
         </div>
       </aside>

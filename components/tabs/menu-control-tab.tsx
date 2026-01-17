@@ -56,12 +56,12 @@ export function MenuControlTab() {
       </div>
 
       {activeSubTab === "items" ? (
-        <div className="luxury-card">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="font-serif text-xl font-light">Manage Menu Items</h2>
+        <div className="luxury-card p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-4 sm:mb-6">
+            <h2 className="font-serif text-lg sm:text-xl font-light">Manage Menu Items</h2>
             <button 
               onClick={() => setIsAddingItem(true)}
-              className="flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2 rounded text-sm hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-accent/90 transition-all active:scale-[0.98] shadow-sm"
             >
               <Plus className="w-4 h-4" /> Add Item
             </button>
@@ -128,12 +128,12 @@ export function MenuControlTab() {
           </div>
         </div>
       ) : (
-        <div className="luxury-card">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="font-serif text-xl font-light">Manage Categories</h2>
+        <div className="luxury-card p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-4 sm:mb-6">
+            <h2 className="font-serif text-lg sm:text-xl font-light">Manage Categories</h2>
             <button 
               onClick={() => setIsAddingCategory(true)}
-              className="flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2 rounded text-sm hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-accent/90 transition-all active:scale-[0.98] shadow-sm"
             >
               <Plus className="w-4 h-4" /> Add Category
             </button>
@@ -183,9 +183,9 @@ export function MenuControlTab() {
 
       {/* Category Modal (Add/Edit) */}
       {(isAddingCategory || editingCategory) && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-card w-full max-w-md p-6 rounded-lg pointer-events-auto shadow-2xl">
-            <h3 className="text-lg font-serif mb-4">{editingCategory ? "Edit Category" : "Add New Category"}</h3>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white/95 backdrop-blur-md w-full max-w-md p-5 sm:p-6 rounded-2xl pointer-events-auto shadow-2xl border border-white/20">
+            <h3 className="text-base sm:text-lg font-serif mb-4">{editingCategory ? "Edit Category" : "Add New Category"}</h3>
             <form onSubmit={async (e) => {
               e.preventDefault()
               const formData = new FormData(e.currentTarget)
@@ -203,26 +203,26 @@ export function MenuControlTab() {
               setEditingCategory(null)
             }} className="space-y-4">
               <div>
-                <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Name</label>
+                <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Name</label>
                 <input 
                   name="name" 
                   defaultValue={editingCategory?.name || ""}
                   required 
-                  className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent" 
+                  className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent text-sm" 
                 />
               </div>
               <div>
-                <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Description</label>
+                <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Description</label>
                 <textarea 
                   name="description" 
                   defaultValue={editingCategory?.description || ""}
                   rows={3} 
-                  className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent resize-none" 
+                  className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent resize-none text-sm" 
                 />
               </div>
               <div className="flex gap-3 pt-2">
-                <button type="button" onClick={() => { setIsAddingCategory(false); setEditingCategory(null); }} className="flex-1 px-4 py-2 border border-border rounded text-sm hover:bg-secondary transition-colors">Cancel</button>
-                <button type="submit" className="flex-1 px-4 py-2 bg-accent text-accent-foreground rounded text-sm hover:opacity-90 transition-opacity">
+                <button type="button" onClick={() => { setIsAddingCategory(false); setEditingCategory(null); }} className="flex-1 px-4 py-2.5 sm:py-3 border border-border/50 rounded-xl text-sm font-medium hover:bg-secondary/50 transition-colors">Cancel</button>
+                <button type="submit" className="flex-1 px-4 py-2.5 sm:py-3 bg-accent text-accent-foreground rounded-xl text-sm font-medium hover:bg-accent/90 transition-all active:scale-[0.98] shadow-sm">
                   {editingCategory ? "Update" : "Create"}
                 </button>
               </div>
@@ -233,9 +233,9 @@ export function MenuControlTab() {
 
       {/* Item Modal (Add/Edit) */}
       {(isAddingItem || editingItem) && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-card w-full max-w-md p-6 rounded-lg pointer-events-auto shadow-2xl my-8">
-            <h3 className="text-lg font-serif mb-4">{editingItem ? "Edit Menu Item" : "Add New Menu Item"}</h3>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white/95 backdrop-blur-md w-full max-w-md p-5 sm:p-6 rounded-2xl pointer-events-auto shadow-2xl my-8 border border-white/20">
+            <h3 className="text-base sm:text-lg font-serif mb-4">{editingItem ? "Edit Menu Item" : "Add New Menu Item"}</h3>
             <form onSubmit={async (e) => {
               e.preventDefault()
               const formData = new FormData(e.currentTarget)
@@ -263,58 +263,58 @@ export function MenuControlTab() {
               
               setIsAddingItem(false)
               setEditingItem(null)
-            }} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            }} className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 <div className="col-span-2">
-                  <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Name</label>
-                  <input name="name" defaultValue={editingItem?.name || ""} required className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent" />
+                  <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Name</label>
+                  <input name="name" defaultValue={editingItem?.name || ""} required className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent text-sm" />
                 </div>
                 <div>
-                  <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Price (₹)</label>
-                  <input name="price" type="number" defaultValue={editingItem?.price || ""} required className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent" />
+                  <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Price (₹)</label>
+                  <input name="price" type="number" defaultValue={editingItem?.price || ""} required className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent text-sm" />
                 </div>
-                <div className="flex items-center gap-2 pt-6">
+                <div className="flex items-center gap-2 pt-5 sm:pt-6">
                   <input name="isPopular" type="checkbox" defaultChecked={editingItem?.isPopular} className="w-4 h-4 accent-accent" />
-                  <label className="text-xs text-muted-foreground uppercase tracking-wider">Popular</label>
+                  <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider">Popular</label>
                 </div>
                 <div>
-                  <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Category</label>
-                  <select name="category" defaultValue={editingItem?.category || ""} className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent">
+                  <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Category</label>
+                  <select name="category" defaultValue={editingItem?.category || ""} className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent text-sm">
                     {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                   </select>
                 </div>
               </div>
               <div>
-                <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Dietary</label>
-                <select name="dietary" defaultValue={editingItem?.dietary || "veg"} className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent">
+                <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Dietary</label>
+                <select name="dietary" defaultValue={editingItem?.dietary || "veg"} className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent text-sm">
                   <option value="veg">Vegetarian</option>
                   <option value="non-veg">Non-Vegetarian</option>
                   <option value="vegan">Vegan</option>
                 </select>
               </div>
               <div>
-                <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Portion</label>
-                <select name="portion" defaultValue={editingItem?.portion || "regular"} className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent">
+                <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Portion</label>
+                <select name="portion" defaultValue={editingItem?.portion || "regular"} className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent text-sm">
                   <option value="regular">Regular</option>
                   <option value="light">Light</option>
                   <option value="shareable">Shareable</option>
                 </select>
               </div>
               <div>
-                <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Chef Note / Tagline</label>
-                <input name="chefNote" defaultValue={editingItem?.chefNote || ""} className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent" />
+                <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Chef Note / Tagline</label>
+                <input name="chefNote" defaultValue={editingItem?.chefNote || ""} className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent text-sm" />
               </div>
               <div>
-                <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Description</label>
-                <textarea name="description" defaultValue={editingItem?.description || ""} rows={2} className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent resize-none" />
+                <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Description</label>
+                <textarea name="description" defaultValue={editingItem?.description || ""} rows={2} className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent resize-none text-sm" />
               </div>
               <div>
-                <label className="text-xs text-muted-foreground uppercase tracking-wider block mb-1">Pairing</label>
-                <input name="pairing" defaultValue={editingItem?.pairing || ""} className="w-full bg-secondary px-3 py-2 rounded border border-border outline-none focus:border-accent" />
+                <label className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider block mb-1">Pairing</label>
+                <input name="pairing" defaultValue={editingItem?.pairing || ""} className="w-full bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-border/50 outline-none focus:border-accent text-sm" />
               </div>
               <div className="flex gap-3 pt-2">
-                <button type="button" onClick={() => { setIsAddingItem(false); setEditingItem(null); }} className="flex-1 px-4 py-2 border border-border rounded text-sm hover:bg-secondary transition-colors">Cancel</button>
-                <button type="submit" className="flex-1 px-4 py-2 bg-accent text-accent-foreground rounded text-sm hover:opacity-90 transition-opacity">
+                <button type="button" onClick={() => { setIsAddingItem(false); setEditingItem(null); }} className="flex-1 px-4 py-2.5 sm:py-3 border border-border/50 rounded-xl text-sm font-medium hover:bg-secondary/50 transition-colors">Cancel</button>
+                <button type="submit" className="flex-1 px-4 py-2.5 sm:py-3 bg-accent text-accent-foreground rounded-xl text-sm font-medium hover:bg-accent/90 transition-all active:scale-[0.98] shadow-sm">
                   {editingItem ? "Update" : "Create"}
                 </button>
               </div>

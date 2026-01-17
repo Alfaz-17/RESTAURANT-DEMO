@@ -29,69 +29,77 @@ export function InventoryTab({ refreshTrigger }: InventoryTabProps) {
   })
 
   return (
-    <div key={refreshTrigger} className="space-y-4 sm:space-y-6">
+    <div key={refreshTrigger} className="space-y-6 sm:space-y-10">
       {/* Usage Summary */}
-      <div className="grid grid-cols-3 gap-3 sm:gap-4">
-        <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 rounded-2xl p-4 border-2 border-red-200 dark:border-red-800">
-          <div className="flex items-center gap-2 mb-2">
-            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
-            <p className="text-xs font-semibold text-red-900 dark:text-red-100 uppercase tracking-wide">High Use</p>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
+        <div className="luxury-card bg-rose-500/5 border-rose-500/10 p-4 sm:p-6">
+          <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+            <div className="p-2 glass rounded-lg"><AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500" /></div>
+            <p className="text-[9px] sm:text-[10px] font-bold text-muted-foreground uppercase tracking-[0.15em] sm:tracking-[0.2em]">Velocity: High</p>
           </div>
-          <p className="text-3xl font-bold text-red-900 dark:text-red-100">{highUsageItems.length}</p>
-          <p className="text-xs text-red-700 dark:text-red-300 mt-1">Items</p>
+          <div className="flex items-baseline gap-2">
+            <p className="text-2xl sm:text-4xl font-serif text-rose-500 font-light">{highUsageItems.length}</p>
+            <span className="text-[9px] sm:text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Stock Items</span>
+          </div>
         </div>
-        <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-950 dark:to-yellow-900 rounded-2xl p-4 border-2 border-yellow-200 dark:border-yellow-800">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
-            <p className="text-xs font-semibold text-yellow-900 dark:text-yellow-100 uppercase tracking-wide">Medium</p>
+
+        <div className="luxury-card bg-accent/5 border-accent/10 p-4 sm:p-6">
+          <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+            <div className="p-2 glass rounded-lg"><TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-accent" /></div>
+            <p className="text-[9px] sm:text-[10px] font-bold text-muted-foreground uppercase tracking-[0.15em] sm:tracking-[0.2em]">Velocity: Steady</p>
           </div>
-          <p className="text-3xl font-bold text-yellow-900 dark:text-yellow-100">{mediumUsageItems.length}</p>
-          <p className="text-xs text-yellow-700 dark:text-yellow-300 mt-1">Items</p>
+          <div className="flex items-baseline gap-2">
+            <p className="text-2xl sm:text-4xl font-serif text-accent font-light">{mediumUsageItems.length}</p>
+            <span className="text-[9px] sm:text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Stock Items</span>
+          </div>
         </div>
-        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 rounded-2xl p-4 border-2 border-green-200 dark:border-green-800">
-          <div className="flex items-center gap-2 mb-2">
-            <Package className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
-            <p className="text-xs font-semibold text-green-900 dark:text-green-100 uppercase tracking-wide">Total</p>
+
+        <div className="luxury-card p-4 sm:p-6">
+          <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+            <div className="p-2 glass rounded-lg"><Package className="w-4 h-4 sm:w-5 sm:h-5 text-foreground/40" /></div>
+            <p className="text-[9px] sm:text-[10px] font-bold text-muted-foreground uppercase tracking-[0.15em] sm:tracking-[0.2em]">Inventory Reach</p>
           </div>
-          <p className="text-3xl font-bold text-green-900 dark:text-green-100">{menuItems.length}</p>
-          <p className="text-xs text-green-700 dark:text-green-300 mt-1">Items</p>
+          <div className="flex items-baseline gap-2">
+            <p className="text-2xl sm:text-4xl font-serif text-foreground font-light">{menuItems.length}</p>
+            <span className="text-[9px] sm:text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Total SKU</span>
+          </div>
         </div>
       </div>
 
       {/* Items Grid - Mobile Optimized */}
-      <div className="space-y-3">
-        <h2 className="text-lg sm:text-xl font-bold px-1">Today's Usage</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="space-y-4 sm:space-y-6">
+        <h2 className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground opacity-60">Consumable Traction</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {menuItems.map((item) => {
             const used = itemUsage[item.id] || 0
-            const status = used > 10 ? { label: "High Usage", color: "red", bg: "bg-red-50 dark:bg-red-950", border: "border-red-200 dark:border-red-800", text: "text-red-900 dark:text-red-100" }
-              : used > 5 ? { label: "Medium Usage", color: "yellow", bg: "bg-yellow-50 dark:bg-yellow-950", border: "border-yellow-200 dark:border-yellow-800", text: "text-yellow-900 dark:text-yellow-100" }
-              : { label: "Low Usage", color: "green", bg: "bg-green-50 dark:bg-green-950", border: "border-green-200 dark:border-green-800", text: "text-green-900 dark:text-green-100" }
+            const status = used > 10 ? { label: "Depleting", color: "text-rose-500", bar: "bg-rose-500" }
+              : used > 5 ? { label: "Optimal", color: "text-accent", bar: "bg-accent" }
+              : { label: "Stable", color: "text-muted-foreground", bar: "bg-muted-foreground/20" }
 
             return (
               <div
                 key={item.id}
-                className={`${status.bg} ${status.border} border-2 rounded-2xl p-4 transition-all hover:shadow-lg`}
+                className="luxury-card group transition-all duration-500 p-4 sm:p-6"
               >
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex items-start justify-between mb-3 sm:mb-4">
                   <div className="flex-1">
-                    <h4 className={`font-bold text-sm sm:text-base ${status.text}`}>{item.name}</h4>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wide mt-0.5">{item.category}</p>
+                    <h4 className="font-serif font-bold text-sm sm:text-base text-foreground group-hover:text-accent transition-colors">{item.name}</h4>
+                    <p className="text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-widest mt-1 font-bold">{item.category}</p>
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-${status.color}-500 text-white whitespace-nowrap`}>
+                  <span className={`text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] border-l border-border pl-2 sm:pl-3 ${status.color}`}>
                     {status.label}
                   </span>
                 </div>
 
                 {/* Usage Bar */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Used Today</span>
-                    <span className={`text-2xl font-bold ${status.text}`}>{used}</span>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex justify-between items-end">
+                    <span className="text-[8px] sm:text-[9px] font-bold text-muted-foreground/40 uppercase tracking-widest">Daily Movement</span>
+                    <span className={`text-xl sm:text-2xl font-serif ${status.color} font-light`}>{used}</span>
                   </div>
-                  <div className="h-2 bg-white/50 dark:bg-black/20 rounded-full overflow-hidden">
+                  <div className="h-1 bg-border/30 rounded-full overflow-hidden">
                     <div 
-                      className={`h-full bg-${status.color}-500 transition-all duration-500`}
+                      className={`h-full ${status.bar} transition-all duration-1000 ease-out shadow-lg`}
                       style={{ width: `${Math.min((used / 15) * 100, 100)}%` }}
                     />
                   </div>
